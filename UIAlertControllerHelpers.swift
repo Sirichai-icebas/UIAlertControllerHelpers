@@ -59,3 +59,20 @@ extension UIAlertController {
     }
     
 }
+
+
+extension Error {
+    
+    func alert(on:UIViewController) {
+        UIAlertController.inform(title: "ERROR_REPORT_ALERT_TITLE".localized, message: self.localizedDescription, on: on)
+    }
+    
+    func alertInform(vc:UIViewController, handler: @escaping (() -> Void)) {
+        UIAlertController.informAndWait(message: self.localizedDescription, on: vc).then(on: .main) {  (_) -> Void in
+            handler()
+            }
+            .catch { (e) in
+                // never happen.
+        }
+    }
+}
